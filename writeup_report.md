@@ -29,7 +29,7 @@ The goal of the pipeline is identify lane markings in the road from color images
 
 ![alt text][image0]
 
- Lane markings by nature are made to be easily visible by the human eye/brain.  However getting an algorithm to do the same thing requires special processing.  Lane markings are created to have a high contrast to the rest of the road for visibility.  One way to help detect that contrast is to passing the image through the grayscale() function.
+ Lane markings by nature are made to be easily visible by the human eye/brain.  However getting an algorithm to do the same thing requires special processing.  Lane markings are created to have a high contrast to the rest of the road for visibility.  One way to help detect that contrast is to pass the image through the grayscale() function.
 
 ![alt text][image1]
 
@@ -37,7 +37,7 @@ This reduces the amount of color dimensions to process in order to eventually fi
 
 ![alt text][image2]
 
-By smoothing the grays, it will make it easier to find large gradients in the shade of gray between neighboring pixels.  This will help the Canny transform find edges when the smoothed grayscale image is passed through the canny() function.
+By smoothing the grays, it will make it easier to find large gradients in the shades of gray between neighboring pixels.  This will help the Canny transform find edges when the smoothed grayscale image is passed through the canny() function.
 
 ![alt text][image3]
 
@@ -64,13 +64,13 @@ The settings I had arrived at worked for all the sample images and the standard 
 ### 2. Identify potential shortcomings with your current pipeline
 
 
-One potential shortcoming would be what would happen when ... 
-
-Another shortcoming could be ...
+The pipeline in its current state produces lines in the video that have some movement to them.  In other words, the line is smooth in space but not in time.  Additionally it has trouble with curved lane markings as demonstrated by its failure to process the challenge video.  I imagine it would have trouble with an image that is too dark or too bright as well.  Additionally, a car that is a short distance ahead would leave only a little bit of lane markings to extrapolate from.
 
 
 ### 3. Suggest possible improvements to your pipeline
 
-A possible improvement would be to ...
+Some potential improvements to the pipeline include:
 
-Another potential improvement could be to ...
+- Applying filtering to the average slopes and centers to help smooth the processed lines in the video.  However this would require some notion of time history or an object that can keep track of previous states.
+- The Hough space parameters could probably be better.  I imagine part of the reason the lines in the video are not smooth could be attributed to the scatter of potential lines being returned from the hough_lines() function.  I have no intuition for the parameters and would perhaps make a separate piece of code that would allow me to vary the parameters and see what they do to the resulting hough_lines() outputs.
+- Perhaps instead of single line, it might make sense to create a series of joined line segments.
